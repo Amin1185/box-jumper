@@ -4,6 +4,35 @@ const ctx = canvas.getContext('2d');
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 400;
 
+const BOX_WIDTH = 50;
+let BOX_HEIGHT = 50;
+let boxX = (GAME_WIDTH - BOX_WIDTH) / 2;
+const boxY = GAME_HEIGHT - BOX_HEIGHT;
+const MOVE_SPEED = 5;
+
+const keys = {};
+
+function drawBox() {
+  ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+  ctx.fillStyle = 'red';
+  ctx.fillRect(boxX, boxY, BOX_WIDTH, BOX_HEIGHT);
+}
+
+function update() {
+  if (keys['a'] || keys['ArrowLeft']) {
+    boxX = Math.max(0, boxX - MOVE_SPEED);
+  }
+  if (keys['d'] || keys['ArrowRight']) {
+    boxX = Math.min(boxX + MOVE_SPEED, GAME_WIDTH - BOX_WIDTH);
+  }
+}
+
+function gameLoop() {
+  update();
+  drawBox();
+  requestAnimationFrame(gameLoop);
+}
+
 function resizeCanvas() {
   // Use visual viewport for exact visible area; fallback to layout viewport
   const vp = window.visualViewport || { width: window.innerWidth, height: window.innerHeight };
@@ -21,6 +50,21 @@ function resizeCanvas() {
   canvas.style.height = Math.floor(GAME_HEIGHT * scale) + 'px';
 }
 
+document.addEventListener('keydown', (e) => {
+  keys[e.key] = true;
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    e.preventDefault();
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  keys[e.key] = false;
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    e.preventDefault();
+  }
+});
+
 window.addEventListener('resize', resizeCanvas);
 if (window.visualViewport) window.visualViewport.addEventListener('resize', resizeCanvas);
 resizeCanvas();
+gameLoop();
