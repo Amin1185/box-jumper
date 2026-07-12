@@ -5,9 +5,15 @@ const GAME_WIDTH = 800;
 const GAME_HEIGHT = 400;
 
 const BOX_WIDTH = 50;
-let BOX_HEIGHT = 50;
+const BOX_HEIGHT = 50;
+
+let vy = 0;
+const GRAVITY = 0.6;
+const JUMP_FORCE = -12;
+let isOnGround = true;
+
 let boxX = (GAME_WIDTH - BOX_WIDTH) / 2;
-const boxY = GAME_HEIGHT - BOX_HEIGHT;
+let boxY = GAME_HEIGHT - BOX_HEIGHT;
 const MOVE_SPEED = 5;
 
 const keys = {};
@@ -24,6 +30,28 @@ function update() {
   }
   if (keys['d'] || keys['ArrowRight']) {
     boxX = Math.min(boxX + MOVE_SPEED, GAME_WIDTH - BOX_WIDTH);
+  }
+
+  if (keys[' '] || keys['Space'] || keys['ArrowUp']) {
+    if (isOnGround) {
+      vy = JUMP_FORCE;
+      isOnGround = false;
+    }
+  }
+
+  // Gravity pulls the box down each frame
+  vy += GRAVITY;
+  boxY += vy;
+
+  if (boxY + BOX_HEIGHT >= GAME_HEIGHT) {
+    boxY = GAME_HEIGHT - BOX_HEIGHT;
+    vy = 0;
+    isOnGround = true;
+  }
+
+  if (boxY < 0) {
+    boxY = 0;
+    vy = 0;
   }
 }
 
