@@ -6,6 +6,7 @@ const GAME_HEIGHT = 400;
 
 const BOX_WIDTH = 50;
 const BOX_HEIGHT = 50;
+const BOX_DIAGONAL = Math.sqrt(BOX_WIDTH ** 2, BOX_HEIGHT ** 2);
 
 let vy = 0;
 const GRAVITY = 0.6;
@@ -16,12 +17,22 @@ let boxX = (GAME_WIDTH - BOX_WIDTH) / 2;
 let boxY = GAME_HEIGHT - BOX_HEIGHT;
 const MOVE_SPEED = 5;
 
+let rotation = 0;
+let isRotating = false;
+const ROTATION_SPEED = 0.2;
+const HEIGHT_THRESHOLD = BOX_DIAGONAL;
+
 const keys = {};
 
 function drawBox() {
   ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+  
+  ctx.save();
+  ctx.translate(boxX + BOX_WIDTH/2, boxY + BOX_HEIGHT/2);
+  ctx.rotate(rotation);
   ctx.fillStyle = 'red';
-  ctx.fillRect(boxX, boxY, BOX_WIDTH, BOX_HEIGHT);
+  ctx.fillRect(-BOX_WIDTH/2, -BOX_HEIGHT/2, BOX_WIDTH, BOX_HEIGHT);
+  ctx.restore();
 }
 
 function update() {
@@ -53,6 +64,14 @@ function update() {
     boxY = 0;
     vy = 0;
   }
+  
+  if (isRotating) {
+    rotation += ROTATION_SPEED;
+    if (rotation >= 2 * Math.PI) {
+      rotation = 0;
+      isRotating = false;
+    }
+  }
 }
 
 function gameLoop() {
@@ -80,6 +99,11 @@ function resizeCanvas() {
 
 document.addEventListener('keydown', (e) => {
   keys[e.key] = true;
+  
+  if (e.key.toLowerCase() === 'r' && !isOnGround && boxY < GAME_HEIGHT - BOX_HEIGHT - HEIGHT_THRESHOLD && !isRotating) {
+    isRotating = true;
+    e.preventDefault();
+  }
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
     e.preventDefault();
   }
