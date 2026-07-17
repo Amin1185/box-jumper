@@ -13,7 +13,7 @@ const BOX_DIAGONAL = Math.sqrt(BOX_WIDTH ** 2, BOX_HEIGHT ** 2);
 
 let vy = 0;
 const GRAVITY = 0.6;
-const JUMP_FORCE = -12;
+const JUMP_FORCE = -15;
 let isOnGround = true;
 
 let boxX = (GAME_WIDTH - BOX_WIDTH) / 2;
@@ -22,6 +22,7 @@ const MOVE_SPEED = 5;
 
 let rotation = 0;
 let isRotating = false;
+let spinDirection = 1;
 const ROTATION_SPEED = 0.2;
 const HEIGHT_THRESHOLD = BOX_DIAGONAL;
 
@@ -69,8 +70,9 @@ function update() {
   }
   
   if (isRotating) {
-    rotation += ROTATION_SPEED;
-    if (rotation >= 2 * Math.PI) {
+    rotation += spinDirection * ROTATION_SPEED;
+    
+    if ((spinDirection === 1 && rotation >= Math.PI) || (spinDirection === -1 && rotation <= -Math.PI)) {
       rotation = 0;
       isRotating = false;
     }
@@ -88,6 +90,14 @@ document.addEventListener('keydown', (e) => {
   
   if (e.key.toLowerCase() === 'r' && !isOnGround && boxY < GAME_HEIGHT - BOX_HEIGHT - HEIGHT_THRESHOLD && !isRotating) {
     isRotating = true;
+
+    if (keys['d'] || keys['ArrowRight']) {
+      spinDirection = 1;
+    } else if (keys['a'] || keys['ArrowLeft']) {
+      spinDirection = -1;
+    } else {
+      spinDirection = 1;
+    }
     e.preventDefault();
   }
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
