@@ -24,7 +24,7 @@ let rotation = 0;
 let isRotating = false;
 let spinDirection = 1;
 const ROTATION_SPEED = 0.2;
-const HEIGHT_THRESHOLD = BOX_DIAGONAL;
+const HEIGHT_THRESHOLD = BOX_DIAGONAL * 2.5;
 
 const keys = {};
 
@@ -111,5 +111,49 @@ document.addEventListener('keyup', (e) => {
     e.preventDefault();
   }
 });
+
+function setKeyState(key, state) {
+  keys[key] = state;
+}
+
+function triggerRotateAction() {
+  if (!isOnGround && boxY < GAME_HEIGHT - BOX_HEIGHT - HEIGHT_THRESHOLD && !isRotating) {
+    isRotating = true;
+    if (keys['d'] || keys['ArrowRight']) {
+      spinDirection = 1;
+    } else if (keys['a'] || keys['ArrowLeft']) {
+      spinDirection = -1;
+    } else {
+      spinDirection = 1;
+    }
+  }
+}
+
+function bindControlButton(buttonId, onActivate, onDeactivate) {
+  const btn = document.getElementById(buttonId);
+  if (!btn) return;
+
+  const press = (e) => {
+    e.preventDefault(); 
+    onActivate();
+  };
+  const release = (e) => {
+    e.preventDefault();
+    onDeactivate();
+  };
+
+  btn.addEventListener('touchstart', press, { passive: false });
+  btn.addEventListener('touchend', release, { passive: false });
+  btn.addEventListener('touchcancel', release, { passive: false });
+
+  btn.addEventListener('mousedown', press);
+  btn.addEventListener('mouseup', release);
+  btn.addEventListener('mouseleave', release);
+}
+
+bindControlButton('btnLeft', () => setKeyState('ArrowLeft', true), () => setKeyState('ArrowLeft', false));
+bindControlButton('btnRight', () => setKeyState('ArrowRight', true), () => setKeyState('ArrowRight', false));
+bindControlButton('btnJump', () => setKeyState(' ', true), () => setKeyState(' ', false));
+bindControlButton('btnRotate', () => triggerRotateAction(), () => {});
 
 gameLoop();
