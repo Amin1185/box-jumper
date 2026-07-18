@@ -35,5 +35,39 @@ canvas {
   width: 100%;
   max-width: 800px;
   aspect-ratio: 2 / 1;
-  touch-action: none; 
+  touch-action: none;
+}
+
+.controls {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.control-group {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-control {
+  pointer-events: auto;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(51, 51, 51, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  backdrop-filter: blur(2px);
+  transition: background 0.1s, transform 0.1s;
 }
