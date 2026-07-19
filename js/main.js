@@ -135,10 +135,12 @@ function bindControlButton(buttonId, onActivate, onDeactivate) {
 
   const press = (e) => {
     e.preventDefault(); 
+    btn.classList.add('pressed');
     onActivate();
   };
   const release = (e) => {
     e.preventDefault();
+    btn.classList.remove('pressed');
     onDeactivate();
   };
 
