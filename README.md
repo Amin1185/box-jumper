@@ -1,24 +1,25 @@
-Box Jumper
+# Box Jumper
 
 A simple canvas platformer game. Control a red box, jump, and spin in mid-air.
 
-🎮 Play – open index.html in any browser.
+🎮 **Play** – open `index.html` in any browser.
 
 ---
 
-Controls
+## Controls
 
-Action Keyboard Touch
-Move Left A or ← Tap ◀
-Move Right D or → Tap ▶
-Jump Space or ↑ Tap ▲
-Spin (in air) R Tap ⟳
+| Action         | Keyboard       | Touch       |
+|----------------|----------------|-------------|
+| Move Left      | `A` or `←`     | Tap ◀       |
+| Move Right     | `D` or `→`     | Tap ▶       |
+| Jump           | `Space` or `↑` | Tap ▲       |
+| Spin (in air)  | `R`            | Tap ⟳       |
 
-Spin only works when you're high enough above the ground.
+> Spin only works when you're high enough above the ground.
 
 ---
 
-Quick Start
+## Quick Start
 
 ```bash
 git clone https://github.com/Amin1185/box-jump-game.git
