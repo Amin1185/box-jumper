@@ -43,9 +43,9 @@ box-jump-game/
 
 Built With
 
-· HTML5 Canvas
-· Vanilla JavaScript
-· CSS3
+- HTML5 Canvas
+- Vanilla JavaScript
+- CSS3
 
 No dependencies – just open and play.
 
