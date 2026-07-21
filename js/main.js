@@ -9,7 +9,7 @@ canvas.height = GAME_HEIGHT;
 
 const BOX_WIDTH = 50;
 const BOX_HEIGHT = 50;
-const BOX_DIAGONAL = Math.sqrt(BOX_WIDTH ** 2, BOX_HEIGHT ** 2);
+const BOX_DIAGONAL = Math.sqrt(BOX_WIDTH ** 2 + BOX_HEIGHT ** 2);
 
 let vy = 0;
 const GRAVITY = 0.6;
@@ -24,7 +24,7 @@ let rotation = 0;
 let isRotating = false;
 let spinDirection = 1;
 const ROTATION_SPEED = 0.2;
-const HEIGHT_THRESHOLD = BOX_DIAGONAL * 2.5;
+const HEIGHT_THRESHOLD = BOX_DIAGONAL;
 
 const keys = {};
 
