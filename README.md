@@ -4,8 +4,6 @@ A simple canvas platformer game. Control a red box, jump, and spin in mid-air.
 
 🎮 **Play** – open `index.html` in any browser.
 
----
-
 ## Controls
 
 | Action         | Keyboard       | Touch       |
@@ -17,8 +15,6 @@ A simple canvas platformer game. Control a red box, jump, and spin in mid-air.
 
 > Spin only works when you're high enough above the ground.
 
----
-
 ## Quick Start
 
 ```bash
@@ -26,8 +22,6 @@ git clone https://github.com/Amin1185/box-jump-game.git
 cd box-jump-game
 # Open index.html
 ```
-
----
 
 Project Structure
 
@@ -39,8 +33,6 @@ box-jump-game/
 └── LICENSE
 ```
 
----
-
 Built With
 
 - HTML5 Canvas
@@ -48,8 +40,6 @@ Built With
 - CSS3
 
 No dependencies – just open and play.
-
----
 
 License
 
@@ -60,4 +50,4 @@ MIT – see LICENSE.
 Author
 
 Amin Mozaffari – GitHub
-Project: Amin1185/box-jump-game
+Project: amin-grid/box-jumper
