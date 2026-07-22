@@ -12,19 +12,20 @@ const BOX_HEIGHT = 50;
 const BOX_DIAGONAL = Math.sqrt(BOX_WIDTH ** 2 + BOX_HEIGHT ** 2);
 
 let vy = 0;
-const GRAVITY = 0.6;
-const JUMP_FORCE = -15;
+const GRAVITY = 2160;
+const JUMP_FORCE = -900;
 let isOnGround = true;
 
 let boxX = (GAME_WIDTH - BOX_WIDTH) / 2;
 let boxY = GAME_HEIGHT - BOX_HEIGHT;
-const MOVE_SPEED = 5;
+const MOVE_SPEED = 300;
 
 let rotation = 0;
 let isRotating = false;
 let spinDirection = 1;
-const ROTATION_SPEED = 0.2;
+const ROTATION_SPEED = 12;
 const HEIGHT_THRESHOLD = BOX_DIAGONAL;
+let lastTime = null;
 
 const keys = {};
 
@@ -39,12 +40,12 @@ function drawBox() {
   ctx.restore();
 }
 
-function update() {
+function update(dt) {
   if (keys['a'] || keys['ArrowLeft']) {
-    boxX = Math.max(0, boxX - MOVE_SPEED);
+    boxX = Math.max(0, boxX - (MOVE_SPEED * dt));
   }
   if (keys['d'] || keys['ArrowRight']) {
-    boxX = Math.min(boxX + MOVE_SPEED, GAME_WIDTH - BOX_WIDTH);
+    boxX = Math.min(boxX + (MOVE_SPEED * dt), GAME_WIDTH - BOX_WIDTH);
   }
 
   if (keys[' '] || keys['Space'] || keys['ArrowUp']) {
@@ -55,8 +56,8 @@ function update() {
   }
 
   // Gravity pulls the box down each frame
-  vy += GRAVITY;
-  boxY += vy;
+  vy += GRAVITY * dt;
+  boxY += vy * dt;
 
   if (boxY + BOX_HEIGHT >= GAME_HEIGHT) {
     boxY = GAME_HEIGHT - BOX_HEIGHT;
@@ -70,7 +71,7 @@ function update() {
   }
   
   if (isRotating) {
-    rotation += spinDirection * ROTATION_SPEED;
+    rotation += spinDirection * ROTATION_SPEED * dt;
     
     if ((spinDirection === 1 && rotation >= Math.PI) || (spinDirection === -1 && rotation <= -Math.PI)) {
       rotation = 0;
@@ -79,8 +80,11 @@ function update() {
   }
 }
 
-function gameLoop() {
-  update();
+function gameLoop(timestamp) {
+  if (lastTime === null) lastTime = timestamp;
+  let dt = (timestamp - lastTime) / 1000;
+  lastTime = timestamp;
+  update(dt);
   drawBox();
   requestAnimationFrame(gameLoop);
 }
@@ -158,4 +162,4 @@ bindControlButton('btnRight', () => setKeyState('ArrowRight', true), () => setKe
 bindControlButton('btnJump', () => setKeyState(' ', true), () => setKeyState(' ', false));
 bindControlButton('btnRotate', () => triggerRotateAction(), () => {});
 
-gameLoop();
+requestAnimationFrame(gameLoop);
